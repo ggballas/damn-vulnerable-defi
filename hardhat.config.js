@@ -2,6 +2,9 @@ require("@nomiclabs/hardhat-waffle");
 require('@openzeppelin/hardhat-upgrades');
 require('hardhat-dependency-compiler');
 
+const tdly = require("@tenderly/hardhat-tenderly");
+tdly.setup();
+
 module.exports = {
     networks: {
       hardhat: {
