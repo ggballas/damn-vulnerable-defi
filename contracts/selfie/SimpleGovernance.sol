@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "hardhat/console.sol";
 import "../DamnValuableTokenSnapshot.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 
@@ -65,6 +66,7 @@ contract SimpleGovernance {
         );
 
         emit ActionExecuted(actionId, msg.sender);
+        console.log("estoy aqui 3");
     }
 
     function getActionDelay() public view returns (uint256) {

@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
+import "hardhat/console.sol";
 import "../DamnValuableToken.sol";
 
 /**
@@ -30,6 +31,8 @@ contract FlashLoanerPool is ReentrancyGuard {
         
         liquidityToken.transfer(msg.sender, amount);
 
+        console.log("giving a flash loan amount %s", amount);
+
         msg.sender.functionCall(
             abi.encodeWithSignature(
                 "receiveFlashLoan(uint256)",
@@ -37,6 +40,9 @@ contract FlashLoanerPool is ReentrancyGuard {
             )
         );
 
+        if (liquidityToken.balanceOf(address(this)) >= balanceBefore) {
+            console.log("flash loan paid back");
+        }
         require(liquidityToken.balanceOf(address(this)) >= balanceBefore, "Flash loan not paid back");
     }
 }

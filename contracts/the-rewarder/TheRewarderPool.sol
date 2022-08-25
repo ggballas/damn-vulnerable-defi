@@ -2,6 +2,7 @@
 
 pragma solidity ^0.8.0;
 
+import "hardhat/console.sol";
 import "./RewardToken.sol";
 import "../DamnValuableToken.sol";
 import "./AccountingToken.sol";
@@ -66,6 +67,7 @@ contract TheRewarderPool {
         uint256 rewards = 0;
 
         if(isNewRewardsRound()) {
+            console.log("new rewards round");
             _recordSnapshot();
         }        
         
@@ -76,6 +78,7 @@ contract TheRewarderPool {
             rewards = (amountDeposited * 100 * 10 ** 18) / totalDeposits;
 
             if(rewards > 0 && !_hasRetrievedReward(msg.sender)) {
+                console.log("rewarding %s with %s rewards", msg.sender, rewards);
                 rewardToken.mint(msg.sender, rewards);
                 lastRewardTimestamps[msg.sender] = block.timestamp;
             }
